@@ -20,7 +20,7 @@ function App() {
     e.preventDefault();
     // input tag validation
     if (!name) {
-      // dislay alert
+      showAlert(true, "please enter value", "danger");
     } else if ((name, isEditing)) {
       // deal with edit
     } else {
@@ -29,17 +29,30 @@ function App() {
         id: new Date().getTime().toString(),
         title: name,
       };
+      showAlert(true, "item added to the list", "success");
       setList([...list, newItem]);
       setName("");
     }
   };
+
+  const showAlert = (show = false, msg = "", type = "") => {
+    setAlert({ show, msg, type });
+  };
+
+  const clearList = () => {
+    showAlert(true, "empty list", "danger");
+    setList([]);
+  };
+
   return (
     <section className="section-center">
       <form
         className="grocery-form"
         onSubmit={handleSubmit}
       >
-        {alert.show && <Alert></Alert>}
+        {alert.show && (
+          <Alert {...alert} removeAlert={showAlert}></Alert>
+        )}
         <h3>grocery bud</h3>
         <div className="form-control">
           <input
@@ -56,10 +69,14 @@ function App() {
           </button>
         </div>
       </form>
-      <div className="grocery-container">
-        <List items={list}></List>
-        <button className="clear-btn">clear items</button>
-      </div>
+      {list.length > 0 && (
+        <div className="grocery-container">
+          <List items={list}></List>
+          <button className="clear-btn" onClick={clearList}>
+            clear items
+          </button>
+        </div>
+      )}
     </section>
   );
 }
