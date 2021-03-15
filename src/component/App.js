@@ -103,7 +103,7 @@ function App() {
             className="grocery"
             placeholder="e.g egg"
             value={name}
-            onChange={(e) => {
+            onChange={(e) => {       
               setName(e.target.value);
             }}
           ></input>
